@@ -7,6 +7,29 @@ from django.views import generic
 from .models import Choice, Question
 
 
+
+import json
+
+def __HR(data, info=''):
+    return HttpResponse(json.dumps({'status': 1, 'info': info, 'data': data}), \
+        content_type="application/json")
+
+
+def get_notices(request):
+    
+    Questions = Question.objects.order_by('-pub_date')
+
+
+    published_content =[]
+    for q in Questions:
+        ans = {
+            'title' : q.question_text, \
+        }
+        published_content.append(ans)
+    return __HR(published_content)
+
+
+
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
